@@ -32,6 +32,7 @@ dynamic = ["version"]
 dependencies = []
 
 [project.optional-dependencies]
+bigquery = ["google-cloud-bigquery~=3.10"]
 test = ["pytest", "pytest-cov"]
 
 [project.urls]
