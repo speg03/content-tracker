@@ -13,3 +13,8 @@
 ```console
 $ pip install content-tracker
 ```
+
+If you use BigQuery as database:
+```console
+$ pip install content-tracker[bigquery]
+```
