@@ -1,19 +1,19 @@
 from abc import ABC, abstractmethod
 
-from .. import models
+from ..models import Content
 
 
 class Provider(ABC):
     """Base class for all providers."""
 
     @abstractmethod
-    def get_content(self, id: str) -> models.Content:
+    def get_content(self, id: str) -> Content:
         """Get content.
 
         Args:
             id (str): ID.
 
         Returns:
-            models.Content: Content.
+            Content: Content.
         """
         raise NotImplementedError
