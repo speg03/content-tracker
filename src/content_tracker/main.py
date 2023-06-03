@@ -1,10 +1,10 @@
 import logging
 
-from .databases import Database
-from .providers import Provider
+from .databases.base import Database
+from .providers.base import Provider
 
 
-class Application:
+class ContentTracker:
     def __init__(self, provider: Provider, database: Database) -> None:
         self.provider = provider
         self.database = database
