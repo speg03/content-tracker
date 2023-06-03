@@ -16,6 +16,11 @@ class ContentTracker:
         self.database.insert_or_update_content(content)
         self.database.insert_content_history(content)
 
+    def list_contents(self) -> None:
+        contents = self.database.list_contents()
+        for content in contents:
+            self._logger.info(f"Content {content.id}: {content.title}")
+
     def list_changes(self, interval_months: int = 6) -> None:
         changes = self.database.list_changed_contents(interval_months)
         for change in changes:
