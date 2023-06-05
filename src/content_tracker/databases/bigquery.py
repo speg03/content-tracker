@@ -82,9 +82,37 @@ class BigQuery(Database):
         return [Content(**row) for row in results]
 
     def list_changed_contents(
-        self, interval_months: int = 6
+        self, intervals: int = 24, part: str = "HOUR"
     ) -> Sequence[ChangedContent]:
         from google.cloud.bigquery import QueryJobConfig, ScalarQueryParameter
+
+        # Validate part for DATETIME_DIFF
+        # see: https://cloud.google.com/bigquery/docs/reference/standard-sql/datetime_functions#datetime_diff
+        valid_parts = (
+            "MICROSECOND",
+            "MILLISECOND",
+            "SECOND",
+            "MINUTE",
+            "HOUR",
+            "DAY",
+            "WEEK",
+            "WEEK(SUNDAY)",
+            "WEEK(MONDAY)",
+            "WEEK(TUESDAY)",
+            "WEEK(WEDNESDAY)",
+            "WEEK(THURSDAY)",
+            "WEEK(FRIDAY)",
+            "WEEK(SATURDAY)",
+            "ISOWEEK",
+            "MONTH",
+            "QUARTER",
+            "YEAR",
+        )
+        part_upper = part.upper()
+        if part_upper not in valid_parts:
+            raise ValueError(
+                f"Invalid part: {part}. Valid parts are {', '.join(valid_parts)}."
+            )
 
         sql = f"""
             WITH contents_with_lags AS (
@@ -102,13 +130,11 @@ class BigQuery(Database):
                 AND DATETIME_DIFF(
                     CURRENT_DATETIME,
                     DATETIME(created_at),
-                    MONTH
-                ) <= @interval_months
+                    {part_upper}
+                ) <= @intervals
         """
         job_config = QueryJobConfig(
-            query_parameters=[
-                ScalarQueryParameter("interval_months", "INTEGER", interval_months)
-            ]
+            query_parameters=[ScalarQueryParameter("intervals", "INTEGER", intervals)]
         )
         results = self._client.query(sql, job_config=job_config).result()
         return [ChangedContent(**row) for row in results]

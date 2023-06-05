@@ -36,12 +36,15 @@ class Database(ABC):
 
     @abstractmethod
     def list_changed_contents(
-        self, interval_months: int = 6
+        self, intervals: int = 24, part: str = "HOUR"
     ) -> Sequence[ChangedContent]:
         """List changed contents.
 
         Args:
-            interval_months (int, optional): Interval months. Defaults to 6.
+            intervals (int, optional): A value indicating an interval of time. The unit
+                is specified in `part`. Defaults to 24.
+            part (str, optional): Unit of time indicated by `intervals`. Defaults to
+                "HOUR".
 
         Returns:
             Sequence[ChangedContent]: Changed contents.

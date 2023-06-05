@@ -40,8 +40,10 @@ class ContentTracker:
             payload = self.notifier.payload_from_contents(contents)
             self.notifier.notify(payload)
 
-    def list_changes(self, interval_months: int = 6, notify: bool = False) -> None:
-        changes = self.database.list_changed_contents(interval_months)
+    def list_changes(
+        self, intervals: int = 24, part: str = "HOUR", notify: bool = False
+    ) -> None:
+        changes = self.database.list_changed_contents(intervals, part)
 
         self._logger.info("List changes:")
         for change in changes:
