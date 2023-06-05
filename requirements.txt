@@ -4,3 +4,9 @@
 #
 #    pip-compile --output-file=./requirements.txt ./pyproject.toml
 #
+click==8.1.3
+    # via typer
+typer==0.9.0
+    # via content-tracker (./pyproject.toml)
+typing-extensions==4.6.3
+    # via typer

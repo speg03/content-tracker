@@ -29,7 +29,7 @@ classifiers = [
 
 dynamic = ["version"]
 
-dependencies = []
+dependencies = ["typer>=0.9,<1.0"]
 
 [project.optional-dependencies]
 bigquery = ["google-cloud-bigquery~=3.10"]
