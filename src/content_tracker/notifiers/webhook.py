@@ -5,7 +5,14 @@ from .base import Notifier
 
 
 class Webhook(Notifier):
-    """Webhook notifier."""
+    """Webhook notifier.
+
+    Note:
+        This class implements only the `notify` method among the abstract methods of
+        `Notifier`. It is necessary to create a class that extends this class and
+        implement the `payload_from_contents` and `payload_from_changed_contents`
+        methods.
+    """
 
     def __init__(
         self,
