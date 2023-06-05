@@ -54,8 +54,10 @@ class BigQuery(Database):
                 ScalarQueryParameter("id", "STRING", content.id),
                 ScalarQueryParameter("title", "STRING", content.title),
                 ScalarQueryParameter("body", "STRING", content.body),
+                # `created_at` is not used for updates but required for inserts
                 ScalarQueryParameter("created_at", "TIMESTAMP", content.created_at),
-                ScalarQueryParameter("updated_at", "TIMESTAMP", content.updated_at),
+                # `updated_at` should be the same as `created_at` for new contents
+                ScalarQueryParameter("updated_at", "TIMESTAMP", content.created_at),
             ]
         )
         self._client.query(sql, job_config=job_config).result()
@@ -69,7 +71,7 @@ class BigQuery(Database):
                     content_id=content.id,
                     title=content.title,
                     body=content.body,
-                    created_at=content.updated_at,
+                    created_at=content.created_at,
                 )
             ],
         )
