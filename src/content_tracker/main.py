@@ -25,7 +25,7 @@ class ContentTracker:
         self.database.insert_content_history(content)
 
         self._logger.info(f"Added content: {content}")
-        if notify:
+        if notify and self.notifier:
             payload = self.notifier.payload_from_contents([content])
             self.notifier.notify(payload)
 
@@ -36,7 +36,7 @@ class ContentTracker:
         for content in contents:
             self._logger.info(content)
 
-        if notify:
+        if notify and self.notifier:
             payload = self.notifier.payload_from_contents(contents)
             self.notifier.notify(payload)
 
@@ -49,6 +49,6 @@ class ContentTracker:
         for change in changes:
             self._logger.info(change)
 
-        if notify:
+        if notify and self.notifier:
             payload = self.notifier.payload_from_changed_contents(changes)
             self.notifier.notify(payload)
