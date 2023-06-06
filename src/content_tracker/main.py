@@ -22,7 +22,6 @@ class ContentTracker:
     def add_content(self, id: str, notify: bool = False) -> None:
         content = self.provider.get_content(id)
         self.database.insert_or_update_content(content)
-        self.database.insert_content_history(content)
 
         self._logger.info(f"Added content: {content}")
         if notify and self.notifier:

@@ -31,6 +31,9 @@ class BigQuery(Database):
         from google.cloud.bigquery import QueryJobConfig, ScalarQueryParameter
 
         sql = f"""
+            BEGIN TRANSACTION;
+
+            --- Insert or update content.
             MERGE `{self.contents_table}` AS target
             USING (
                 SELECT
@@ -47,7 +50,23 @@ class BigQuery(Database):
                     target.body = source.body,
                     target.updated_at = source.updated_at
             WHEN NOT MATCHED THEN
-                INSERT ROW
+                INSERT ROW;
+
+            --- Insert content history.
+            INSERT INTO `{self.content_histories_table}` (
+                id,
+                title,
+                body,
+                created_at
+            )
+            VALUES (
+                @id,
+                @title,
+                @body,
+                @created_at
+            );
+
+            COMMIT TRANSACTION;
         """
         job_config = QueryJobConfig(
             query_parameters=[
@@ -61,22 +80,6 @@ class BigQuery(Database):
             ]
         )
         self._client.query(sql, job_config=job_config).result()
-
-    def insert_content_history(self, content: Content) -> None:
-        table = self._client.get_table(self.content_histories_table)
-        errors = self._client.insert_rows(
-            table,
-            [
-                dict(
-                    id=content.id,
-                    title=content.title,
-                    body=content.body,
-                    created_at=content.created_at,
-                )
-            ],
-        )
-        if errors:
-            raise RuntimeError(f"Failed to insert content history: {errors}")
 
     def list_contents(self) -> Sequence[Content]:
         table = self._client.get_table(self.contents_table)

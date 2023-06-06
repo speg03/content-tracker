@@ -17,15 +17,6 @@ class Database(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def insert_content_history(self, content: Content) -> None:
-        """Insert content history.
-
-        Args:
-            content (Content): Content.
-        """
-        raise NotImplementedError
-
-    @abstractmethod
     def list_contents(self) -> Sequence[Content]:
         """List contents.
 
