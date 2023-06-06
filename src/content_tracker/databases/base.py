@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Sequence
 
-from ..models import ChangedContent, Content
+from ..models import Content
 
 
 class Database(ABC):
@@ -37,7 +37,7 @@ class Database(ABC):
     @abstractmethod
     def list_changed_contents(
         self, intervals: int = 24, part: str = "HOUR"
-    ) -> Sequence[ChangedContent]:
+    ) -> Sequence[Content]:
         """List changed contents.
 
         Args:
@@ -47,6 +47,6 @@ class Database(ABC):
                 "HOUR".
 
         Returns:
-            Sequence[ChangedContent]: Changed contents.
+            Sequence[Content]: Changed contents.
         """
         raise NotImplementedError

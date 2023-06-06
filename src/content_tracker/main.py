@@ -43,12 +43,12 @@ class ContentTracker:
     def list_changes(
         self, intervals: int = 24, part: str = "HOUR", notify: bool = False
     ) -> None:
-        changes = self.database.list_changed_contents(intervals, part)
+        contents = self.database.list_changed_contents(intervals, part)
 
         self._logger.info("List changes:")
-        for change in changes:
-            self._logger.info(change)
+        for content in contents:
+            self._logger.info(content)
 
         if notify and self.notifier:
-            payload = self.notifier.payload_from_changed_contents(changes)
+            payload = self.notifier.payload_from_changed_contents(contents)
             self.notifier.notify(payload)

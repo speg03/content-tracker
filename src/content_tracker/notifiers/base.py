@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Sequence
 
-from ..models import ChangedContent, Content
+from ..models import Content
 
 
 class Notifier(ABC):
@@ -20,14 +20,11 @@ class Notifier(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def payload_from_changed_contents(
-        self, changed_contents: Sequence[ChangedContent]
-    ) -> str:
+    def payload_from_changed_contents(self, contents: Sequence[Content]) -> str:
         """Payload from changed contents.
 
         Args:
-            changed_contents (Sequence[ChangedContent]): Changed
-                contents.
+            contents (Sequence[Content]): Changed contents.
 
         Returns:
             str: Payload.

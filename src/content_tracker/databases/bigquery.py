@@ -1,6 +1,6 @@
 from typing import Optional, Sequence
 
-from ..models import ChangedContent, Content
+from ..models import Content
 from .base import Database
 
 
@@ -68,7 +68,7 @@ class BigQuery(Database):
             table,
             [
                 dict(
-                    content_id=content.id,
+                    id=content.id,
                     title=content.title,
                     body=content.body,
                     created_at=content.created_at,
@@ -85,7 +85,7 @@ class BigQuery(Database):
 
     def list_changed_contents(
         self, intervals: int = 24, part: str = "HOUR"
-    ) -> Sequence[ChangedContent]:
+    ) -> Sequence[Content]:
         from google.cloud.bigquery import QueryJobConfig, ScalarQueryParameter
 
         # Validate part for DATETIME_DIFF
@@ -121,7 +121,7 @@ class BigQuery(Database):
                 SELECT
                     *,
                     LAG(body) OVER (
-                        PARTITION BY content_id ORDER BY created_at
+                        PARTITION BY id ORDER BY created_at
                     ) AS previous_body
                 FROM `{self.content_histories_table}`
             )
@@ -139,4 +139,4 @@ class BigQuery(Database):
             query_parameters=[ScalarQueryParameter("intervals", "INTEGER", intervals)]
         )
         results = self._client.query(sql, job_config=job_config).result()
-        return [ChangedContent(**row) for row in results]
+        return [Content(**row) for row in results]
