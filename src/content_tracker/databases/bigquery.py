@@ -33,7 +33,7 @@ class BigQuery(Database):
         sql = f"""
             BEGIN TRANSACTION;
 
-            --- Insert or update content.
+            -- Insert or update content.
             MERGE `{self.contents_table}` AS target
             USING (
                 SELECT
@@ -52,7 +52,7 @@ class BigQuery(Database):
             WHEN NOT MATCHED THEN
                 INSERT ROW;
 
-            --- Insert content history.
+            -- Insert content history.
             INSERT INTO `{self.content_histories_table}` (
                 id,
                 title,
