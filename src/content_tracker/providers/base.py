@@ -16,4 +16,4 @@ class Provider(ABC):
         Returns:
             Content: Content.
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover

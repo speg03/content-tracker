@@ -14,7 +14,7 @@ class Database(ABC):
         Args:
             content (Content): Content.
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     @abstractmethod
     def list_contents(self) -> Sequence[Content]:
@@ -23,7 +23,7 @@ class Database(ABC):
         Returns:
             Sequence[Content]: Contents.
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     @abstractmethod
     def list_changed_contents(
@@ -40,4 +40,4 @@ class Database(ABC):
         Returns:
             Sequence[Content]: Changed contents.
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover

@@ -17,7 +17,7 @@ class Notifier(ABC):
         Returns:
             str: Payload.
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     @abstractmethod
     def payload_from_changed_contents(self, contents: Sequence[Content]) -> str:
@@ -29,7 +29,7 @@ class Notifier(ABC):
         Returns:
             str: Payload.
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     @abstractmethod
     def notify(self, payload: str) -> None:
@@ -38,4 +38,4 @@ class Notifier(ABC):
         Args:
             payload (str): Payload.
         """
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
