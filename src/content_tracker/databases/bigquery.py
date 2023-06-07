@@ -113,8 +113,7 @@ class BigQuery(Database):
             "QUARTER",
             "YEAR",
         )
-        part_upper = part.upper()
-        if part_upper not in valid_parts:
+        if part.upper() not in valid_parts:
             raise ValueError(
                 f"Invalid part: {part}. Valid parts are {', '.join(valid_parts)}."
             )
@@ -135,7 +134,7 @@ class BigQuery(Database):
                 AND DATETIME_DIFF(
                     CURRENT_DATETIME,
                     DATETIME(created_at),
-                    {part_upper}
+                    {part.upper()}
                 ) <= @interval
         """
         job_config = QueryJobConfig(
