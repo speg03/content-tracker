@@ -87,7 +87,7 @@ class BigQuery(Database):
         return [Content(**row) for row in results]
 
     def list_changed_contents(
-        self, intervals: int = 24, part: str = "HOUR"
+        self, interval: int = 24, part: str = "HOUR"
     ) -> Sequence[Content]:
         from google.cloud.bigquery import QueryJobConfig, ScalarQueryParameter
 
@@ -136,10 +136,10 @@ class BigQuery(Database):
                     CURRENT_DATETIME,
                     DATETIME(created_at),
                     {part_upper}
-                ) <= @intervals
+                ) <= @interval
         """
         job_config = QueryJobConfig(
-            query_parameters=[ScalarQueryParameter("intervals", "INTEGER", intervals)]
+            query_parameters=[ScalarQueryParameter("interval", "INTEGER", interval)]
         )
         results = self._client.query(sql, job_config=job_config).result()
         return [Content(**row) for row in results]
