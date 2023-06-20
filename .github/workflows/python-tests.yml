@@ -67,6 +67,11 @@ jobs:
   publish:
     needs: test
     if: github.event_name == 'release' && github.event.action == 'published'
+    permissions:
+      id-token: write
+    environment:
+      name: release
+      url: https://pypi.org/project/${{ github.event.repository.name }}/
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
@@ -77,5 +82,3 @@ jobs:
 
       - name: Publish
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_TOKEN }}
