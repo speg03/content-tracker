@@ -5,7 +5,7 @@ clean:
 	rm -rf ./dist
 
 requirements:
-	pip-compile --upgrade --output-file=./requirements.txt ./pyproject.toml
+	uv pip compile -U pyproject.toml -o requirements.txt
 lint:
 	pre-commit run --all-files
 test:
